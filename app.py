@@ -94,37 +94,38 @@ if gdf is not None and not gdf.empty:
     st.sidebar.metric("Superficie Total", f"{total_area:,.1f} ha")
 
     # Map
-    # Center map on the data
-    bounds = gdf.total_bounds
-    center_lat = (bounds[1] + bounds[3]) / 2
-    center_lon = (bounds[0] + bounds[2]) / 2
-    
-    m = folium.Map(location=[center_lat, center_lon], zoom_start=9)
+    with st.spinner("Generando mapa..."):
+        # Center map on the data
+        bounds = gdf.total_bounds
+        center_lat = (bounds[1] + bounds[3]) / 2
+        center_lon = (bounds[0] + bounds[2]) / 2
+        
+        m = folium.Map(location=[center_lat, center_lon], zoom_start=9)
 
-    # Style function
-    def style_function(feature):
-        fclass = feature['properties']['fclass']
-        color = 'forestgreen' if fclass == 'forest' else 'limegreen'
-        return {
-            'fillColor': color,
-            'color': color,
-            'weight': 1,
-            'fillOpacity': 0.6
-        }
+        # Style function
+        def style_function(feature):
+            fclass = feature['properties']['fclass']
+            color = 'forestgreen' if fclass == 'forest' else 'limegreen'
+            return {
+                'fillColor': color,
+                'color': color,
+                'weight': 1,
+                'fillOpacity': 0.6
+            }
 
-    # Add GeoJSON
-    # We can add a tooltip
-    folium.GeoJson(
-        gdf,
-        style_function=style_function,
-        tooltip=folium.GeoJsonTooltip(
-            fields=['name', 'fclass'],
-            aliases=['Nombre:', 'Tipo:'],
-            localize=True
-        )
-    ).add_to(m)
+        # Add GeoJSON
+        # We can add a tooltip
+        folium.GeoJson(
+            gdf,
+            style_function=style_function,
+            tooltip=folium.GeoJsonTooltip(
+                fields=['name', 'fclass'],
+                aliases=['Nombre:', 'Tipo:'],
+                localize=True
+            )
+        ).add_to(m)
 
-    st_folium(m, width=1000, height=600, returned_objects=[])
+        st_folium(m, width=1000, height=600, returned_objects=[])
 
 elif gdf is not None and gdf.empty:
     st.warning("No hay datos para mostrar. Asegúrate de cargar los datos primero.")
