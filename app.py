@@ -136,7 +136,9 @@ if gdf is not None and not gdf.empty:
             tooltip=folium.GeoJsonTooltip(
                 fields=['name', 'fclass', 'area_ha'],
                 aliases=['Nombre:', 'Tipo:', 'Superficie (ha):'],
-                localize=True
+                localize=True,
+                style="font-family: sans-serif; font-size: 12px; padding: 3px; background-color: rgba(255, 255, 255, 0.9);",
+                sticky=True
             )
         ).add_to(m)
 
