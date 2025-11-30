@@ -9,7 +9,19 @@ import requests
 import io
 
 # Constants
-DB_CONNECTION_STR = "postgresql://postgres:postgres@localhost:5432/nyc"
+# Try to get connection string from secrets, otherwise use localhost
+try:
+    if "DB_CONNECTION_STR" in st.secrets:
+        DB_CONNECTION_STR = st.secrets["DB_CONNECTION_STR"]
+    else:
+        DB_CONNECTION_STR = "postgresql://postgres:postgres@localhost:5432/nyc"
+except FileNotFoundError:
+    # Secrets file not found, use localhost
+    DB_CONNECTION_STR = "postgresql://postgres:postgres@localhost:5432/nyc"
+except Exception:
+    # Any other error accessing secrets (e.g. StreamlitSecretNotFoundError which might not be importable easily)
+    DB_CONNECTION_STR = "postgresql://postgres:postgres@localhost:5432/nyc"
+
 TABLE_NAME = "ANDALUCIA_USOS_SUELO"
 DATA_URL = "https://www.uhu.es/jluis.dominguez/AGI/andalucia-landuse.shp.zip"
 LOCAL_DATA_DIR = "andalucia-landuse.shp"
@@ -91,6 +103,9 @@ if gdf is not None and not gdf.empty:
     gdf_proj = gdf.to_crs(epsg=25830)
     total_area = gdf_proj.area.sum() / 10000.0 # ha
     
+    # Add area column to gdf for tooltip
+    gdf['area_ha'] = (gdf_proj.area / 10000.0).round(1)
+    
     st.sidebar.metric("Superficie Total", f"{total_area:,.1f} ha")
 
     # Map
@@ -119,8 +134,8 @@ if gdf is not None and not gdf.empty:
             gdf,
             style_function=style_function,
             tooltip=folium.GeoJsonTooltip(
-                fields=['name', 'fclass'],
-                aliases=['Nombre:', 'Tipo:'],
+                fields=['name', 'fclass', 'area_ha'],
+                aliases=['Nombre:', 'Tipo:', 'Superficie (ha):'],
                 localize=True
             )
         ).add_to(m)
