@@ -1,0 +1,7 @@
+geopandas
+psycopg2-binary
+matplotlib
+sqlalchemy
+geoalchemy2
+requests
+Flask
