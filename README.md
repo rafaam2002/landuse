@@ -1,6 +1,6 @@
-# Andalucía Landuse Web Viewer
+# Andalucía Landuse Streamlit Viewer
 
-This application visualizes land use data (Forest and Nature Reserves) from OpenStreetMap for Andalucía using a Web Interface.
+This application visualizes land use data (Forest and Nature Reserves) from OpenStreetMap for Andalucía using a **Streamlit** Web Interface.
 
 ## Requirements
 
@@ -33,26 +33,24 @@ This application visualizes land use data (Forest and Nature Reserves) from Open
 
 ## Usage
 
-1. Run the Flask application (ensure venv is activated):
+1. Run the Streamlit application (ensure venv is activated):
 
    ```bash
-   python app.py
+   streamlit run app.py
    ```
 
-2. Open your web browser and navigate to:
-   http://127.0.0.1:5000
+2. The application will open in your default web browser (usually http://localhost:8501).
 
 3. **In the Web Interface**:
-   - Click **"Cargar Datos"** to load the shapefile into the database.
-   - Select a filter (All, Forest, or Nature Reserve).
-   - Click **"Visualizar Datos"** to see the map and total area.
-   - Click on any colored zone in the map to see a tooltip with its Name and Area.
+   - **Sidebar**: Use the controls to load data and filter by type.
+   - **Cargar Datos**: Click to load the shapefile into the database.
+   - **Filtrar**: Select 'All', 'forest', or 'nature_reserve'.
+   - **Map**: Interactive map showing the selected zones. Hover to see details.
+   - **Stats**: Total area in hectares is displayed in the sidebar.
 
 ## Features
 
-- **Web Interface**: Modern web UI using Leaflet.js.
+- **Pure Python UI**: Built with Streamlit.
+- **Interactive Map**: Powered by Folium.
 - **Data Loading**: Reads shapefile and uploads to PostGIS.
-- **Visualization**: Interactive map with color-coded zones.
-- **Filtering**: Filter by type.
-- **Area Calculation**: Calculates total area in hectares.
-- **Interactive Tooltips**: Click to see details.
+- **Filtering & Stats**: Dynamic filtering and area calculation.
