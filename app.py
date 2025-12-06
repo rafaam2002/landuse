@@ -29,6 +29,24 @@ SHAPEFILE_NAME = "gis_osm_landuse_a_free_1.shp"
 
 st.set_page_config(page_title="Andalucía Landuse Viewer", layout="wide")
 
+# Hide the deploy button
+st.markdown(
+    """
+    <style>
+    .stDeployButton {
+        visibility: hidden;
+    }
+    .stAppDeployButton {
+        visibility: hidden;
+    }
+    [data-testid="stDeployButton"] {
+        visibility: hidden;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 def get_db_engine():
     return create_engine(DB_CONNECTION_STR)
 
