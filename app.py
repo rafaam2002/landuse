@@ -69,8 +69,8 @@ def load_data_to_db():
 def get_data_from_db(filter_val):
     try:
         engine = get_db_engine()
-        # Use public schema explicitly
-        query = f"SELECT * FROM public.{TABLE_NAME}"
+        # Use public schema explicitly with quotes
+        query = f"SELECT * FROM public.\"{TABLE_NAME}\""
         if filter_val != "All":
             query += f" WHERE fclass = '{filter_val}'"
         else:
@@ -88,8 +88,8 @@ st.sidebar.title("Controles")
 if st.sidebar.button("Cargar Datos"):
     load_data_to_db()
 
-filter_option = st.sidebar.radio(
-    "Filtrar por tipo:",
+filter_option = st.sidebar.selectbox(
+    "Tipo:",
     ("All", "forest", "nature_reserve")
 )
 
