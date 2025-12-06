@@ -56,7 +56,7 @@ def load_data_to_db():
         
         # Drop table if exists and create new
         with st.spinner("Subiendo a PostGIS..."):
-            gdf.to_postgis(TABLE_NAME, engine, if_exists='replace', index=False)
+            gdf.to_postgis(TABLE_NAME, engine, if_exists='replace', index=False, schema='public')
             
         st.success("Datos cargados correctamente en la base de datos.")
         return True
@@ -69,7 +69,8 @@ def load_data_to_db():
 def get_data_from_db(filter_val):
     try:
         engine = get_db_engine()
-        query = f"SELECT * FROM \"{TABLE_NAME}\""
+        # Use public schema explicitly
+        query = f"SELECT * FROM public.{TABLE_NAME}"
         if filter_val != "All":
             query += f" WHERE fclass = '{filter_val}'"
         else:
