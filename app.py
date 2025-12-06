@@ -22,7 +22,7 @@ except Exception:
     # Any other error accessing secrets (e.g. StreamlitSecretNotFoundError which might not be importable easily)
     DB_CONNECTION_STR = "postgresql://postgres:postgres@localhost:5432/nyc"
 
-TABLE_NAME = "ANDALUCIA_USOS_SUELO"
+TABLE_NAME = "andalucia_usos_suelo"
 DATA_URL = "https://www.uhu.es/jluis.dominguez/AGI/andalucia-landuse.shp.zip"
 LOCAL_DATA_DIR = "andalucia-landuse.shp"
 SHAPEFILE_NAME = "gis_osm_landuse_a_free_1.shp"
